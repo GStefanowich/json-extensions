@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>TheElm.Text</RootNamespace>
+        
+        <AssemblyName>TheElm.Text.Json</AssemblyName>
+        <OutputType>Library</OutputType>
+        
+        <!-- NuGet -->
+        <PackageId>TheElm.Text.Json</PackageId>
+        <Version>1.0.0</Version>
+        
+        <PublishRelease>true</PublishRelease>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        
+        <!-- Package Information -->
+        <ProductName>TheElm.Text.Json</ProductName>
+        <Authors>Greg Stefanowich</Authors>
+        <Description>A Text.Json Extension library</Description>
+        
+        <PackageProjectUrl>https://github.com/GStefanowich/json-extensions</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/GStefanowich/json-extensions</RepositoryUrl>
+        <PackageTags>json</PackageTags>
+        <NeutralLanguage>en</NeutralLanguage>
+    </PropertyGroup>
+</Project>
