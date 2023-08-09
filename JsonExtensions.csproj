@@ -21,9 +21,14 @@
         <Authors>Greg Stefanowich</Authors>
         <Description>A Text.Json Extension library</Description>
         
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl>https://github.com/GStefanowich/json-extensions</PackageProjectUrl>
         <RepositoryUrl>https://github.com/GStefanowich/json-extensions</RepositoryUrl>
         <PackageTags>json</PackageTags>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+    </ItemGroup>
 </Project>
