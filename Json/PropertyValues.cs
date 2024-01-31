@@ -6,7 +6,7 @@ using System.Text.Json.Nodes;
 namespace TheElm.Text.Json {
     public static class PropertyValues {
         /// <summary>Try to get a value from the object</summary>
-        public static bool TryGetPropertyValue(this JsonObject that, string key, [MaybeNullWhen(false)] out JsonValue @out) {
+        public static bool TryGetPropertyValue(this JsonObject that, string key, [NotNullWhen(true)] out JsonValue? @out) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             if (that.TryGetPropertyValue(key, out JsonNode? token) && token is JsonValue jValue) {
                 @out = jValue;
@@ -17,7 +17,7 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Try to get an array from the object</summary>
-        public static bool TryGetPropertyValue(this JsonObject that, string key, [MaybeNullWhen(false)] out JsonArray @out, bool tryParse = false) {
+        public static bool TryGetPropertyValue(this JsonObject that, string key, [NotNullWhen(true)] out JsonArray? @out, bool tryParse = false) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             if (that.TryGetPropertyValue(key, out JsonNode? node)) {
                 switch (node, tryParse) {
@@ -37,7 +37,7 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Try to get an object from the object</summary>
-        public static bool TryGetPropertyValue(this JsonObject that, string key, [MaybeNullWhen(false)] out JsonObject @out, bool tryParse = false) {
+        public static bool TryGetPropertyValue(this JsonObject that, string key, [NotNullWhen(true)] out JsonObject? @out, bool tryParse = false) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             if (that.TryGetPropertyValue(key, out JsonNode? token)) {
                 switch (token, tryParse) {
@@ -55,7 +55,7 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Try to get an object from the object</summary>
-        public static bool TryGetPropertyValue(this JsonObject that, string key, [MaybeNullWhen(false)] out object @out) {
+        public static bool TryGetPropertyValue(this JsonObject that, string key, [NotNullWhen(true)] out object? @out) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             if (that.TryGetPropertyValue(key, out JsonValue? jValue)) {
                 @out = jValue.GetValue<object>();
@@ -95,7 +95,7 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Try to get a string from the object</summary>
-        public static bool TryGetPropertyValue(this JsonObject that, string key, [MaybeNullWhen(false)] out string @out, bool strict = false) {
+        public static bool TryGetPropertyValue(this JsonObject that, string key, [NotNullWhen(true)] out string? @out, bool strict = false) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             if (that.TryGetPropertyValue(key, out object? @object)) {
                 switch (@object) {
