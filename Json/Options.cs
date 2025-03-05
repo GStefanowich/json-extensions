@@ -6,8 +6,9 @@ namespace TheElm.Text.Json {
         /// <summary>
         /// Get the SerializerOptions <see cref="JsonDocumentOptions"/>
         /// </summary>
-        public static JsonDocumentOptions GetDocumentOptions(this JsonSerializerOptions options) {
+        public static JsonDocumentOptions GetDocumentOptions( this JsonSerializerOptions options ) {
             _ = options ?? throw new ArgumentNullException(nameof(options));
+            
             return new JsonDocumentOptions {
                 AllowTrailingCommas = options.AllowTrailingCommas,
                 CommentHandling = options.ReadCommentHandling,
@@ -18,8 +19,9 @@ namespace TheElm.Text.Json {
         /// <summary>
         /// Get the SerializerOptions <see cref="JsonNodeOptions"/>
         /// </summary>
-        public static JsonNodeOptions GetNodeOptions(this JsonSerializerOptions options) {
+        public static JsonNodeOptions GetNodeOptions( this JsonSerializerOptions options ) {
             _ = options ?? throw new ArgumentNullException(nameof(options));
+            
             return new JsonNodeOptions {
                 PropertyNameCaseInsensitive = options.PropertyNameCaseInsensitive
             };
@@ -28,8 +30,9 @@ namespace TheElm.Text.Json {
         /// <summary>
         /// Get the SerializerOptions <see cref="JsonReaderOptions"/>
         /// </summary>
-        public static JsonReaderOptions GetReaderOptions(this JsonSerializerOptions options) {
+        public static JsonReaderOptions GetReaderOptions( this JsonSerializerOptions options ) {
             _ = options ?? throw new ArgumentNullException(nameof(options));
+            
             return new JsonReaderOptions {
                 AllowTrailingCommas = options.AllowTrailingCommas,
                 CommentHandling = options.ReadCommentHandling,
@@ -40,8 +43,9 @@ namespace TheElm.Text.Json {
         /// <summary>
         /// Get the SerializerOptions <see cref="JsonWriterOptions"/>
         /// </summary>
-        public static JsonWriterOptions GetWriterOptions(this JsonSerializerOptions options) {
+        public static JsonWriterOptions GetWriterOptions( this JsonSerializerOptions options ) {
             _ = options ?? throw new ArgumentNullException(nameof(options));
+            
             return new JsonWriterOptions {
                 Encoder = options.Encoder,
                 Indented = options.WriteIndented,
