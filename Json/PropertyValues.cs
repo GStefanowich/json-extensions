@@ -79,24 +79,36 @@ namespace TheElm.Text.Json {
         public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out object? @out ) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             
-            if ( that.TryGetPropertyValue(key, out JsonValue? jValue) ) {
-                @out = jValue.GetValue<object>();
-                
-                // Get the underlying value of the element
-                if ( @out is JsonElement element ) {
-                    @out = element.ValueKind switch {
-                        JsonValueKind.Object => JsonObject.Create(element),
-                        JsonValueKind.Array => JsonArray.Create(element),
-                        JsonValueKind.String => element.GetString(),
-                        JsonValueKind.Number => element.GetInt64(),
-                        JsonValueKind.True => true,
-                        JsonValueKind.False => false,
-                        JsonValueKind.Undefined or JsonValueKind.Null => null,
-                        _ => @out
-                    };
+            if ( that.TryGetPropertyValue(key, out JsonNode? token) ) {
+                if ( token is JsonArray jArray ) {
+                    @out = jArray;
+                    return true;
                 }
                 
-                return @out is not null;
+                if ( token is JsonObject jObject ) {
+                    @out = jObject;
+                    return true;
+                }
+                
+                if ( token is JsonValue jValue ) {
+                    @out = jValue.GetValue<object>();
+                    
+                    // Get the underlying value of the element
+                    if ( @out is JsonElement element ) {
+                        @out = element.ValueKind switch {
+                            JsonValueKind.Object => JsonObject.Create(element),
+                            JsonValueKind.Array => JsonArray.Create(element),
+                            JsonValueKind.String => element.GetString(),
+                            JsonValueKind.Number => element.GetInt64(),
+                            JsonValueKind.True => true,
+                            JsonValueKind.False => false,
+                            JsonValueKind.Undefined or JsonValueKind.Null => null,
+                            _ => @out
+                        };
+                    }
+                
+                    return @out is not null;
+                }
             }
             
             @out = null;
