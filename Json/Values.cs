@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace TheElm.Text.Json {
@@ -51,7 +52,7 @@ namespace TheElm.Text.Json {
             => that.Select(pair => pair.Value);
         
         /// <summary>Get all of the Values of a JsonObject</summary>
-        public static IEnumerable<JsonNode?> CloneValues( this JsonObject that )
-            => that.Select(pair => pair.Value?.Clone());
+        public static IEnumerable<JsonNode?> CloneValues( this JsonObject that, JsonSerializerOptions? options = null )
+            => that.Select(pair => pair.Value?.Clone(options));
     }
 }

@@ -26,19 +26,28 @@ namespace TheElm.Text.Json {
         /// <param name="key">The property key to read</param>
         /// <param name="out"><see cref="T:System.Text.Json.Nodes.JsonArray"/> value output</param>
         /// <param name="tryParse">If the value is not a <see cref="T:System.Text.Json.Nodes.JsonArray"/> try to coerce the value</param>
-        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonArray? @out, bool tryParse = false ) {
+        [Obsolete($"Deprecated but available for backward compatibility, replace {nameof(tryParse)} with {nameof(JsonSerializerOptions)}")]
+        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonArray? @out, bool tryParse )
+            => that.TryGetPropertyValue(key, out @out, tryParse ? JsonSerializerOptions.Default : null);
+        
+        /// <summary>Try to get an array from the object</summary>
+        /// <param name="that"><see cref="T:System.Text.Json.Nodes.JsonObject"/> to try coercing a property from</param>
+        /// <param name="key">The property key to read</param>
+        /// <param name="out"><see cref="T:System.Text.Json.Nodes.JsonArray"/> value output</param>
+        /// <param name="options">Parser options, if the value is not a <see cref="T:System.Text.Json.Nodes.JsonArray"/> it will be used to try to coerce the value</param>
+        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonArray? @out, JsonSerializerOptions? options = null ) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             
             if ( that.TryGetPropertyValue(key, out JsonNode? node) ) {
-                switch (node, tryParse) {
-                    case (JsonArray array, _):
+                switch (node) {
+                    case JsonArray array:
                         @out = array;
                         return true;
-                    case (JsonObject @object, true):
-                        return @object.TryConvertToArray(out @out);
-                    case (JsonValue value, true):
+                    case JsonObject @object when options is not null:
+                        return @object.TryConvertToArray(out @out, options: options);
+                    case JsonValue value when options is not null:
                         if (value.TryGetValue(out string? @string))
-                            return @string.TryParseJSON(out @out);
+                            return @string.TryParseJSON(out @out, options);
                         break;
                 }
             }
@@ -46,23 +55,32 @@ namespace TheElm.Text.Json {
             @out = null;
             return false;
         }
-
+        
         /// <summary>Try to get an object from the object</summary>
         /// <param name="that"><see cref="T:System.Text.Json.Nodes.JsonObject"/> to try coercing a property from</param>
         /// <param name="key">The property key to read</param>
         /// <param name="out"><see cref="T:System.Text.Json.Nodes.JsonObject"/> value output</param>
         /// <param name="tryParse">If the value is not a <see cref="T:System.Text.Json.Nodes.JsonObject"/> try to coerce the value</param>
-        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonObject? @out, bool tryParse = false ) {
+        [Obsolete($"Deprecated but available for backward compatibility, replace {nameof(tryParse)} with {nameof(JsonSerializerOptions)}")]
+        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonObject? @out, bool tryParse )
+            => that.TryGetPropertyValue(key, out @out, tryParse ? JsonSerializerOptions.Default : null);
+        
+        /// <summary>Try to get an object from the object</summary>
+        /// <param name="that"><see cref="T:System.Text.Json.Nodes.JsonObject"/> to try coercing a property from</param>
+        /// <param name="key">The property key to read</param>
+        /// <param name="out"><see cref="T:System.Text.Json.Nodes.JsonObject"/> value output</param>
+        /// <param name="options">Parser options, if the value is not a <see cref="T:System.Text.Json.Nodes.JsonObject"/> it will be used to try to coerce the value</param>
+        public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonObject? @out, JsonSerializerOptions? options = null ) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             
-            if ( that.TryGetPropertyValue(key, out JsonNode? token) ) {
-                switch (token) {
+            if ( that.TryGetPropertyValue(key, out JsonNode? node) ) {
+                switch (node) {
                     case JsonObject jObject:
                         @out = jObject;
                         return true;
-                    case JsonValue value when tryParse:
+                    case JsonValue value when options is not null:
                         if ( value.TryGetValue(out string? @string) ) {
-                            return @string.TryParseJSON(out @out);
+                            return @string.TryParseJSON(out @out, options);
                         }
                         break;
                 }
