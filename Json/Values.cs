@@ -27,25 +27,28 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Get the value of a Node as a specific type</summary>
-        private static T? GetValue<T>( JsonNode node ) {
+        private static T? GetValue<T>( JsonNode node, JsonSerializerOptions? options = null ) {
             // If the value we're getting is a JArray
             if ( node is T type )
                 return type;
             
             // Fallback to JValue
-            return node is JsonValue value
-                && value.TryGetValue(out T? @out) ? @out : default;
+            return node switch {
+                JsonValue value => value.TryGetValue(out T? @out) ? @out : default,
+                _ => node.Deserialize<T>(options),
+            };
         }
         
         /// <summary>Get all of the Keys of a JsonObject</summary>
         public static IEnumerable<string> GetKeys( this JsonObject that )
             => that.Select(pair => pair.Key);
         
-        public static IEnumerable<T> GetValues<T>( this JsonObject that ) {
+        public static IEnumerable<T> GetValues<T>( this JsonObject that, JsonSerializerOptions? options = null ) {
             foreach (KeyValuePair<string, JsonNode?> pair in that) {
-                if (pair.Value is null)
+                if ( pair.Value is null )
                     continue;
-                if (Values.GetValue<T>(pair.Value) is T value)
+                
+                if ( Values.GetValue<T>(pair.Value, options) is T value )
                     yield return value;
             }
         }
