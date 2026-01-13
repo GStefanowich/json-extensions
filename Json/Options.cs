@@ -55,5 +55,11 @@ namespace TheElm.Text.Json {
                 #endif
             };
         }
+        
+        /// <summary>
+        /// Duplicate a JsonSerializer options
+        /// </summary>
+        public static JsonSerializerOptions Clone( this JsonSerializerOptions options )
+            => new(options);
     }
 }
