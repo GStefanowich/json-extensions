@@ -3,11 +3,11 @@ using System.Text.Json.Nodes;
 
 namespace TheElm.Text.Json {
     public static class Duplication {
-        public static T? Clone<T>( this T that, JsonSerializerOptions? options = null ) where T : JsonNode
-            => that.CloneCore(0, options ?? JsonSerializerOptions.Default);
+        public static T? Clone<T>( this T node, JsonSerializerOptions? options = null ) where T : JsonNode
+            => node.CloneCore(0, options ?? JsonSerializerOptions.Default);
         
-        private static T? CloneCore<T>( this T that, int depth, JsonSerializerOptions options ) where T : JsonNode
-            => that.CloneCore(depth, options, options.GetNodeOptions());
+        private static T? CloneCore<T>( this T node, int depth, JsonSerializerOptions options ) where T : JsonNode
+            => node.CloneCore(depth, options, options.GetNodeOptions());
         
         private static T? CloneCore<T>( this T that, int depth, JsonSerializerOptions serializerOptions, JsonNodeOptions nodeOptions ) where T : JsonNode {
             if ( that is JsonObject obj ) {

@@ -12,8 +12,8 @@ namespace TheElm.Text.Json {
         public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out JsonValue? @out ) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             
-            if ( that.TryGetPropertyValue(key, out JsonNode? token) && token is JsonValue jValue ) {
-                @out = jValue;
+            if ( that.TryGetPropertyValue(key, out JsonNode? node) && node is JsonValue value ) {
+                @out = value;
                 return true;
             }
             
@@ -75,8 +75,8 @@ namespace TheElm.Text.Json {
             
             if ( that.TryGetPropertyValue(key, out JsonNode? node) ) {
                 switch (node) {
-                    case JsonObject jObject:
-                        @out = jObject;
+                    case JsonObject @object:
+                        @out = @object;
                         return true;
                     case JsonValue value when options is not null:
                         if ( value.TryGetValue(out string? @string) ) {
@@ -97,18 +97,18 @@ namespace TheElm.Text.Json {
         public static bool TryGetPropertyValue( this JsonObject that, string key, [NotNullWhen(true)] out object? @out ) {
             _ = that ?? throw new ArgumentNullException(nameof(that));
             
-            if ( that.TryGetPropertyValue(key, out JsonNode? token) ) {
-                if ( token is JsonArray jArray ) {
-                    @out = jArray;
+            if ( that.TryGetPropertyValue(key, out JsonNode? node) ) {
+                if ( node is JsonArray array ) {
+                    @out = array;
                     return true;
                 }
                 
-                if ( token is JsonObject jObject ) {
-                    @out = jObject;
+                if ( node is JsonObject @object ) {
+                    @out = @object;
                     return true;
                 }
                 
-                if ( token is JsonValue jValue ) {
+                if ( node is JsonValue jValue ) {
                     @out = jValue.GetValue<object>();
                     
                     // Get the underlying value of the element
@@ -121,10 +121,10 @@ namespace TheElm.Text.Json {
                             JsonValueKind.True => true,
                             JsonValueKind.False => false,
                             JsonValueKind.Undefined or JsonValueKind.Null => null,
-                            _ => @out
+                            _ => @out,
                         };
                     }
-                
+                    
                     return @out is not null;
                 }
             }
@@ -153,7 +153,7 @@ namespace TheElm.Text.Json {
                     ulong @ulong when !strict => @ulong.ToString(),
                     DateTime time when !strict => time.ToString(CultureInfo.InvariantCulture),
                     DateTimeOffset time when !strict => time.ToString(CultureInfo.InvariantCulture),
-                    _ => null
+                    _ => null,
                 };
             }
             

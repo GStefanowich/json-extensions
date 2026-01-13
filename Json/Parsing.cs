@@ -26,13 +26,13 @@ namespace TheElm.Text.Json {
                     return true;
                 }
                 
-                if ( obj is JsonObject jObject ) {
-                    if ( jObject.Deserialize<T>(options) is T deserialized ) {
+                if ( obj is JsonObject @object ) {
+                    if ( @object.Deserialize<T>(options) is T deserialized ) {
                         value = deserialized;
                         return true;
                     }
-                } else if ( obj is JsonArray jArray ) {
-                    if ( jArray.Deserialize<T>(options) is T deserialized ) {
+                } else if ( obj is JsonArray array ) {
+                    if ( array.Deserialize<T>(options) is T deserialized ) {
                         value = deserialized;
                         return true;
                     }

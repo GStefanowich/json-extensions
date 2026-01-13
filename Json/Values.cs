@@ -37,11 +37,12 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Get all of the Keys of a JsonObject</summary>
-        public static IEnumerable<string> GetKeys( this JsonObject that )
-            => that.Select(pair => pair.Key);
+        public static IEnumerable<string> GetKeys( this JsonObject @object )
+            => @object.Select(pair => pair.Key);
         
-        public static IEnumerable<T> GetValues<T>( this JsonObject that, JsonSerializerOptions? options = null ) {
-            foreach (KeyValuePair<string, JsonNode?> pair in that) {
+        /// <summary>Get all of the Values of a JsonObject that are a specific type</summary>
+        public static IEnumerable<T> GetValues<T>( this JsonObject @object, JsonSerializerOptions? options = null ) {
+            foreach ( KeyValuePair<string, JsonNode?> pair in @object ) {
                 if ( pair.Value is null )
                     continue;
                 
@@ -51,11 +52,22 @@ namespace TheElm.Text.Json {
         }
         
         /// <summary>Get all of the Values of a JsonObject</summary>
-        public static IEnumerable<JsonNode?> GetValues( this JsonObject that )
-            => that.Select(pair => pair.Value);
+        public static IEnumerable<JsonNode?> GetValues( this JsonObject @object )
+            => @object.Select(pair => pair.Value);
+        
+        /// <summary>Get all of the Values of a JsonArray that are a specific type</summary>
+        public static IEnumerable<T> GetValues<T>( this JsonArray array, JsonSerializerOptions? options = null ) {
+            foreach ( JsonNode? node in array ) {
+                if ( node is null )
+                    continue;
+                
+                if ( Values.GetValue<T>(node, options) is T value )
+                    yield return value;
+            }
+        }
         
         /// <summary>Get all of the Values of a JsonObject</summary>
-        public static IEnumerable<JsonNode?> CloneValues( this JsonObject that, JsonSerializerOptions? options = null )
-            => that.Select(pair => pair.Value?.Clone(options));
+        public static IEnumerable<JsonNode?> CloneValues( this JsonObject @object, JsonSerializerOptions? options = null )
+            => @object.Select(pair => pair.Value?.Clone(options));
     }
 }

@@ -9,7 +9,7 @@
         
         <!-- NuGet -->
         <PackageId>TheElm.Text.Json</PackageId>
-        <Version>1.2.1</Version>
+        <Version>1.3.0</Version>
         
         <PublishRelease>true</PublishRelease>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
